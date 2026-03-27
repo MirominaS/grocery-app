@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  frontend:
+    build: ./grocery-app-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./grocery-app-backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./grocery-app-backend/.env
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: grocery_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: miro98
+      POSTGRES_DB: grocery-app
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres_data:

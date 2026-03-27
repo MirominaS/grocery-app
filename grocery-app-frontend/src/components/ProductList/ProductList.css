@@ -1,0 +1,37 @@
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.no-products {
+  font-size: 18px;
+  color: var(--primary-color); 
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 15px; 
+    padding: 30px 10px; 
+    max-width: 95% ; 
+    margin: 0 auto; 
+  }
+
+  .no-products {
+    font-size: 20px;
+    margin-top: 50px;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-list {
+    gap: 12px;
+    padding: 16px;
+  }
+}
