@@ -2,9 +2,8 @@
 
 ## Overview
 
-This is a full-stack grocery ordering application built as part of a technical assessment.  
-It simulates a mobile-first shopping experience where customers can browse products, manage a cart, and place orders.  
-An admin/store view is also provided to review placed orders.
+#### This is a full-stack grocery ordering application.
+
 ---
 ## Tech Stack
 
