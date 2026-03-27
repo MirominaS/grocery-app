@@ -30,7 +30,7 @@ An admin/store view is also provided to review placed orders.
 
 ---
 ## Project Structure
-
+```
 grocery-app/
 │
 ├── grocery-app-frontend/ 
@@ -60,6 +60,7 @@ grocery-app/
 │
 ├── docker-compose.yml 
 └── README.md
+```
 ---
 ## Setup Instructions
 
