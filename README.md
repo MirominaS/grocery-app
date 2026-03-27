@@ -30,7 +30,7 @@
 
 ## Architecture Overview (Dockerized)
 
-This project is built using a **containerized multi-service architecture**. It leverages Docker to ensure that the SPAR Grocery App environment is consistent, reproducible, and ready for deployment with a single command.
+##### This project is built using a **containerized multi-service architecture**. It leverages Docker to ensure that the SPAR Grocery App environment is consistent, reproducible, and ready for deployment with a single command.
 ---
 
 ### Service Decomposition
