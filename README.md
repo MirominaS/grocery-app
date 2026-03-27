@@ -26,6 +26,52 @@
   - frontend
   - backend
   - database
+---
+
+## Architecture Overview (Dockerized)
+
+This project is built using a **containerized multi-service architecture**. It leverages Docker to ensure that the SPAR Grocery App environment is consistent, reproducible, and ready for deployment with a single command.
+---
+
+### Service Decomposition
+
+#### Frontend Container (React + Nginx)
+- **Multi-Stage Build:**
+    - **Build Stage:** Uses `node:20` to compile the React/Vite source code into optimized static assets.
+- **Networking:** Mapped to **Port 5173** on the host. It includes a custom `nginx.conf` to handle client-side routing and proxying to the backend.
+- **Optimization:** The multi-stage approach ensures that heavy development dependencies and the Node.js runtime are excluded from the final production image, reducing the footprint and increasing security.
+
+#### Backend Container (Node.js + Express)
+- **Environment:** `node:18`.
+- **Role:** Acts as the RESTful API gateway, handling business logic, stock validation, and SQL transactions.
+- **Networking:** Runs on **Port 3000**.
+- **Configuration:** Utilizes an `env_file` mapping to inject database credentials securely from the local `.env` file without hardcoding secrets.
+
+#### Database Container (PostgreSQL 15)
+- **Image:** `postgres:15`.
+- **Automated Initialization:** Uses the `./postgres-init` volume mapping. Upon the first startup, Docker automatically executes the SQL scripts to:
+    - Create schemas (`product_details`, `order_details`).
+    - Define table structures and constraints.
+- **Data Persistence:** Uses a named volume `postgres_data` to ensure that customer orders and stock levels are preserved even if the container is restarted.
+
+---
+
+### Orchestration & Networking
+
+The entire stack is coordinated via `docker-compose.yml`, which establishes a private virtual network for the services:
+
+1. **Service Discovery:** The Backend connects to the database using the internal hostname `postgres` (as defined in the services) rather than `localhost`.
+2. **Startup Order:** The `depends_on` property ensures a logical boot sequence: 
+   - **Postgres** starts first ➔ **Backend** waits for Postgres ➔ **Frontend** starts last.
+---
+
+### Dockerized Data Flow
+
+1. **Client Access:** The user interacts with the **Nginx-backed Frontend** on port 5173.
+2. **API Calls:** React makes asynchronous requests to the **Node.js Backend** container.
+3. **Data Processing:** The Backend executes queries against the **PostgreSQL** container.
+4. **Persistence:** All transactions (Orders/Items) are written to the **Persistent Volume** on the host machine.
+5. **Initialization:** On the very first run, the database is pre-populated with products.
 
 ---
 ## Project Structure
